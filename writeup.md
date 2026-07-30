@@ -53,6 +53,8 @@ I didn't include the UI as I want the focus to be on fixing the coordination pro
 
 Integration with external system is in the cutlist due to time constraints.
 
+The documentation submission of the PCP order, supplier billing, and supplier enrollment to the insurance company as that require building a different system for interacting with the insurance portal. It is out of scope for this project.
+
 ## What's Next
 
 _If you had 1 more day, what would you build? With 2 more weeks? Why did you choose that order?_

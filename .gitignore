@@ -1,1 +1,8 @@
 *.trash.*
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/dme.db
+data/scraped/
+logs/

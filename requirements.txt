@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+apscheduler
+playwright
+pydantic
+pytest
+httpx

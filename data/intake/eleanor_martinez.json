@@ -1,0 +1,10 @@
+{
+  "patient_name": "Eleanor Martinez",
+  "age": 72,
+  "medicare_plan": "Original Medicare (Part B) — no supplemental plan",
+  "equipment": "Standard manual wheelchair",
+  "pcp_name": "Dr. Sarah Chen",
+  "pcp_clinic": "Sunrise Family Medicine, Chicago IL",
+  "pcp_phone": "(312) 555-0198",
+  "status_notes": "PCP visit completed 3 days ago, verbal order noted in chart, written order not yet submitted"
+}

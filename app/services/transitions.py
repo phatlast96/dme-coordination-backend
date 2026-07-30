@@ -86,7 +86,8 @@ def resolve_action(
     case: Case,
     followup: ScheduledFollowUp,
     result: VoiceCallResult,
-) -> Action:
+) -> tuple[Action, VoiceCallResult]:
+    """Return action plus the result that should be persisted on call_logs."""
     mapped = TRANSITIONS.get(key)
     if mapped == "check_billing":
         order_code = result.details.get("order_billing_code", "")
@@ -98,13 +99,24 @@ def resolve_action(
                 match.expected,
                 match.actual,
             )
-            return Action.RETRY_PCP
+            logged = VoiceCallResult(
+                success=False,
+                outcome="billing_mismatch",
+                details={
+                    **result.details,
+                    "expected": match.expected,
+                    "actual": match.actual,
+                    "voice_outcome": result.outcome,
+                    "reason": match.reason,
+                },
+            )
+            return Action.RETRY_PCP, logged
         case.order_billing_code = match.actual
-        return Action.OPEN_SUPPLIERS
+        return Action.OPEN_SUPPLIERS, result
 
     if mapped is None:
         logger.info("TRANSITION unknown key=%s defaulting=retry_same", key)
-        return Action.RETRY_SAME
+        return Action.RETRY_SAME, result
 
     action = mapped if isinstance(mapped, Action) else Action(mapped)
 
@@ -118,8 +130,8 @@ def resolve_action(
     ):
         # Demo script doesn't use no_answer; still honor 1 retry then next.
         if followup.attempt >= 2:
-            return Action.NEXT_SUPPLIER
-    return action
+            return Action.NEXT_SUPPLIER, result
+    return action, result
 
 
 def apply_action(
@@ -303,17 +315,23 @@ def apply_call_outcome(
     prompt_name: str = "",
 ) -> Case:
     followup.completed = True
-    if to_phone or prompt_name:
-        log_call_result(session, case, followup, result, to_phone or "unknown", prompt_name or "unknown")
-
     key = (followup.party, followup.purpose, result.outcome)
-    action = resolve_action(key, case, followup, result)
+    action, logged_result = resolve_action(key, case, followup, result)
+    if to_phone or prompt_name:
+        log_call_result(
+            session,
+            case,
+            followup,
+            logged_result,
+            to_phone or "unknown",
+            prompt_name or "unknown",
+        )
     apply_action(session, case, followup, action, result)
     logger.info(
         "TRANSITION party=%s purpose=%s outcome=%s action=%s case_status=%s",
         followup.party,
         followup.purpose,
-        result.outcome,
+        logged_result.outcome,
         action.value,
         case.status,
     )

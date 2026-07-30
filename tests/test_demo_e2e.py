@@ -34,7 +34,7 @@ def test_demo_e2e_ten_outcomes():
 
     expected = [
         "request_fell_in_hole",
-        "written_order_received",  # K0002
+        "billing_mismatch",  # voice said written_order with K0002
         "written_order_received",  # K0001
         "patient_unreachable",
         "cannot_serve",
@@ -48,13 +48,16 @@ def test_demo_e2e_ten_outcomes():
 
     calls = client.get(f"/cases/{case_id}/calls").json()
     assert len(calls) == 10
-    # Second written_order should be success path; first wrong code still logged
-    codes = []
-    for call in calls:
-        payload = json.loads(call["outcome_json"])
-        if payload["outcome"] == "written_order_received":
-            codes.append(payload["details"].get("order_billing_code"))
-    assert codes == ["K0002", "K0001"]
+    mismatch = json.loads(calls[1]["outcome_json"])
+    assert mismatch["outcome"] == "billing_mismatch"
+    assert mismatch["success"] is False
+    assert mismatch["details"]["expected"] == "K0001"
+    assert mismatch["details"]["actual"] == "K0002"
+    assert calls[1]["success"] is False
+    ok_order = json.loads(calls[2]["outcome_json"])
+    assert ok_order["outcome"] == "written_order_received"
+    assert ok_order["details"]["order_billing_code"] == "K0001"
+    assert calls[2]["success"] is True
 
     case = client.get(f"/cases/{case_id}").json()
     assert case["status"] == "completed"

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 from datetime import datetime
 from typing import Any
@@ -7,7 +8,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from app.db import SessionLocal
-from app.models import Case, ScheduledFollowUp
+from app.models import CallLog, Case, ScheduledFollowUp
 from app.services.transitions import apply_call_outcome
 from app.services.voice import PROMPT_BY_PURPOSE, place_call
 
@@ -51,12 +52,22 @@ def process_due_followups(
                 to_phone=to_phone,
                 prompt_name=prompt_name,
             )
+            # Prefer the persisted call-log outcome (e.g. billing_mismatch after voice success).
+            last_log = (
+                session.query(CallLog)
+                .filter(CallLog.followup_id == followup.id)
+                .order_by(CallLog.id.desc())
+                .first()
+            )
+            logged_outcome = result.outcome
+            if last_log:
+                logged_outcome = json.loads(last_log.outcome_json).get("outcome", result.outcome)
             details.append(
                 {
                     "followup_id": followup.id,
                     "party": followup.party,
                     "purpose": followup.purpose,
-                    "outcome": result.outcome,
+                    "outcome": logged_outcome,
                     "case_status": case.status,
                 }
             )

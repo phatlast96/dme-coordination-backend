@@ -32,12 +32,25 @@ def test_wrong_code_blocks_suppliers(session):
         outcome="written_order_received",
         details={"order_billing_code": "K0002"},
     )
-    action = resolve_action(("pcp", "chase_order", "written_order_received"), case, fu, result)
+    action, logged = resolve_action(
+        ("pcp", "chase_order", "written_order_received"), case, fu, result
+    )
     assert action == Action.RETRY_PCP
+    assert logged.outcome == "billing_mismatch"
+    assert logged.success is False
+    assert logged.details["expected"] == "K0001"
+    assert logged.details["actual"] == "K0002"
     apply_call_outcome(session, case, fu, result, to_phone="x", prompt_name="pcp")
     session.commit()
     assert case.status == "awaiting_pcp_order"
     assert session.query(ScheduledFollowUp).filter_by(party="supplier", completed=False).count() == 0
+    from app.models import CallLog
+    import json
+
+    call = session.query(CallLog).one()
+    payload = json.loads(call.outcome_json)
+    assert payload["outcome"] == "billing_mismatch"
+    assert call.success is False
 
 
 def test_good_code_opens_suppliers_and_patient(session):

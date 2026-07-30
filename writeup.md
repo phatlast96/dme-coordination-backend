@@ -40,6 +40,7 @@ The pipeline is wired by starting with an patient intake form. That triggers the
 2. AsyncIOScheduler loads due rows from scheduled_followups
 3. For each due row, mocked Twilio dial and mocked OpenAI voice call to the designated person -> writes call_logs with success/failure
 4. 'apply_call_outcome' function turns a finished phone call into the next step
+    4a. 'schedule_followup' function (happens inside 'apply_call_outcome') schedules the next follow-up based on the outcome of the phone call
 
 
 ## The Cut List

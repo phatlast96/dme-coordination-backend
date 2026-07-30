@@ -2,7 +2,7 @@
 
 ## Sequencing
 
-_What did you build and how did you decide what to build first?_
+*What did you build and how did you decide what to build first?*
 
 ---
 
@@ -20,14 +20,21 @@ Added playwright to scrape the HTML for the requirements from a website for Medi
 
 I noticed that Patient Advocates start with supplier list first instead of PCP. I started with PCP first in the flow starting with the patient intake form, because I assumed the inventory data is already available in the database, which is updated every time the AI talks to the supplier. Repeated follow-ups with the same supplier list before getting the order from PCP would annoy the supplier. Getting the order is a requirement for getting insurance claims for payments.
 
-
 ## Technology & Architecture
 
-_What technologies, stack, and frameworks did you choose? Why? How is your pipeline wired?_
+*What technologies, stack, and frameworks did you choose? Why? How is your pipeline wired?*
 
 ---
 
 I used FastAPI for the API, SQLite as a mock database, Playwrite for scraping the requirements for Medicare, OpenAI for the LLM, and Twilio for the voice calls.
+
+Reasons for choosing:
+
+- FastAPI because it has localhost:8000/docs which is good for demos
+- SQLite is used so we don't connect to external persistent database
+- Playwrite is chosen for scraping the requirements for insurance
+- OpenAI has the most advance voice calls that sounds natural up-to-date
+- Twilio is a easiest way to make phone calls for AI system
 
 The pipeline is wired by starting with an patient intake form. That triggers the system to do follow-ups via phone calls on the PCP/doctor for the order. Once the order is confirmed, the system will trigger the follow-ups for the supplier to hand-off the order. The system will also try to verify that the supplier is enrolled in Medicare. If delivery is confirmed, the system will trigger follow-ups for insurance claims for payments.
 
@@ -40,14 +47,16 @@ The pipeline is wired by starting with an patient intake form. That triggers the
 2. AsyncIOScheduler loads due rows from scheduled_followups
 3. For each due row, mocked Twilio dial and mocked OpenAI voice call to the designated person -> writes call_logs with success/failure
 4. 'apply_call_outcome' function turns a finished phone call into the next step
-    4a. 'schedule_followup' function (happens inside 'apply_call_outcome') schedules the next follow-up based on the outcome of the phone call
+  4a. 'schedule_followup' function (happens inside 'apply_call_outcome') schedules the next follow-up based on the outcome of the phone call
+
 
 
 ## The Cut List
 
-_What did you deliberately decide not to include? Why?_
+*What did you deliberately decide not to include? Why?*
 
 ---
+
 I decided to not include the sourcing of contact information regarding the PCP/doctor, supplier nor the Medicare. This is because I assumed the database is seeded with this information already.
 
 I didn't include the UI as I want the focus to be on fixing the coordination problem.
@@ -62,23 +71,24 @@ Calculating the deductible and patient share is also out of scope for this proje
 
 ## What's Next
 
-_If you had 1 more day, what would you build? With 2 more weeks? Why did you choose that order?_
+*If you had 1 more day, what would you build? With 2 more weeks? Why did you choose that order?*
 
 ---
+
 If I had 1 more day, I would build the following:
 I would build a more robust transparent system so it's easy to audit for the patient and allows the patient to stay in the loop.
 
 If I had 2 more weeks, I would focus on the voice calls as it is the main interface with all the parties involved. I want to be as natural as possible so that the person on the other end of the phone call don't feel like their time is spent talking to a robot.
 
-
 I chose this order because observability is very important for coordination problems. It's hard to know what went wrong in the coordination process without a clear audit trail. After the observability is built, the focus on the voice calls to make the system seemless is the next logical step.
 
-
 ### Constraints Noted
--  Ideally around 3 hours. Time-boxing is suggested, but not a hard requirement. The 
+
+- Ideally around 3 hours. Time-boxing is suggested, but not a hard requirement. The 
 scope is intentionally broad, so please prioritize what you think is most important. 
--  Skip auth, persistent DB, UI polish. Mock external systems freely. Be explicit about 
+- Skip auth, persistent DB, UI polish. Mock external systems freely. Be explicit about 
 what's mocked. 
--  Any stack, any model, any framework. Use what you'd actually reach for in production. 
--  Use AI freely while building. We're not grading whether you wrote code by hand. What 
-we care about is how you use AI inside the product. 
+- Any stack, any model, any framework. Use what you'd actually reach for in production. 
+- Use AI freely while building. We're not grading whether you wrote code by hand. What 
+we care about is how you use AI inside the product.
+

@@ -21,3 +21,15 @@ _What did you deliberately decide not to include? Why?_
 ## What's Next
 
 _If you had 1 more day, what would you build? With 2 more weeks? Why did you choose that order?_
+
+
+
+
+### Constraints Noted
+-  Ideally around 3 hours. Time-boxing is suggested, but not a hard requirement. The 
+scope is intentionally broad, so please prioritize what you think is most important. 
+-  Skip auth, persistent DB, UI polish. Mock external systems freely. Be explicit about 
+what's mocked. 
+-  Any stack, any model, any framework. Use what you'd actually reach for in production. 
+-  Use AI freely while building. We're not grading whether you wrote code by hand. What 
+we care about is how you use AI inside the product. 

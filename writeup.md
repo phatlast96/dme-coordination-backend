@@ -55,6 +55,10 @@ Integration with external system is in the cutlist due to time constraints.
 
 The documentation submission of the PCP order, supplier billing, and supplier enrollment to the insurance company as that require building a different system for interacting with the insurance portal. It is out of scope for this project.
 
+Sending PCP order or any document submission including receipts and many other documents to any party for confirmation is also out of scope for this project.
+
+Calculating the deductile and patient share is also out of scope for this project as it is assumed the insurance company will calculate this and the patient will pay their share.
+
 ## What's Next
 
 _If you had 1 more day, what would you build? With 2 more weeks? Why did you choose that order?_

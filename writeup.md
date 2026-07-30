@@ -57,7 +57,7 @@ The documentation submission of the PCP order, supplier billing, and supplier en
 
 Sending PCP order or any document submission including receipts and many other documents to any party for confirmation is also out of scope for this project.
 
-Calculating the deductile and patient share is also out of scope for this project as it is assumed the insurance company will calculate this and the patient will pay their share.
+Calculating the deductible and patient share is also out of scope for this project as it is assumed the insurance company will calculate this and the patient will pay their share.
 
 ## What's Next
 

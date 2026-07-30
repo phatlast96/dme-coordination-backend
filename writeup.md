@@ -69,6 +69,8 @@ Sending PCP order or any document submission including receipts and many other d
 
 Calculating the deductible and patient share is also out of scope for this project as it is assumed the insurance company will calculate this and the patient will pay their share.
 
+I didn't build the matching between billing code and equipment description as that requires external AI model to verify. I would use it by having an LLM verify it as it is on the phone call with the supplier.
+
 ## What's Next
 
 *If you had 1 more day, what would you build? With 2 more weeks? Why did you choose that order?*

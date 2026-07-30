@@ -50,6 +50,20 @@ US healthcare still runs heavily on phone and web portals — which is why "cont
 
 # What the care advocates do today
 
+1.  Work the supplier list. Call enrolled suppliers from the directory. Ask each: taking new 
+Medicare patients? Stock a standard manual wheelchair (K0001)? How soon could you 
+deliver? Note who picks up, who doesn't, and call the no-answers back later. 
+2.  Chase the written order. Contact the PCP's office for the formal order — call the front 
+desk or work their portal, confirm it's moving, nudge again days later if it's still not signed. 
+3.  Pin down the coverage. Confirm the patient's Medicare eligibility, check the coverage 
+rules for the equipment, and find out whether it needs prior authorization before anyone 
+can deliver. 
+4.  Match and hand off. Once there's a real order and a supplier that's enrolled, in stock, 
+and responsive, connect the two and get delivery scheduled — making sure the billing 
+code on the claim matches what was ordered. 
+5.  Keep the patient in the loop. Call along the way: what's happening, what she needs to 
+do, what she'll owe (~20%), when to expect the equipment. 
+
 # Look for
 
 what the system does at each handoff, what triggers the next step, 

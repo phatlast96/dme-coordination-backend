@@ -8,7 +8,7 @@ _What did you build and how did you decide what to build first?_
 
 To understand what to build first, I first wrote a research synthesis document to understand the problem and the solution. This is in the [synthesis.md](synthesis.md) file.
 
-I then mapped the graph between the 3 parties (doctor, supplier, and Medicare) to understand the dependencies and flow of the process.
+I then mapped the graph between the 3 parties (doctor, supplier, and Medicare) to understand the dependencies and flow of the process in [dme-coord-graph.jpg](dme-coord-graph.jpg) file.
 
 
 

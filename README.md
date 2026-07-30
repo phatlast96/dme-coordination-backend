@@ -1,5 +1,7 @@
 # DME Coordination Backend
 
+Writeup is located in [writeup.md](writeup.md).
+
 FastAPI demo that automates Durable Medical Equipment (DME) coordination for Eleanor Martinez:
 
 **intake → coverage research → PCP order chase → supplier outreach → Medicare payment**
